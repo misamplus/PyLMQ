@@ -1,8 +1,20 @@
 # PyLMQ
 
-Python Library for LMQ
+Python Library for [LMQ](https://github.com/misamplus/LMQ)
 
 ## Usage
+
+1. Install library
+	> pip install git+https://github.com/misamplus/PyLMQ
+
+2. Import it to your code
+	> import PyLMQ
+
+3. Create an object form the library class
+	> lmql = PyLMQ.LightweightMessageQueueLibrary()
+
+4. Call any methods of the object!
+	> lmql.set('test', 'hi')
 	
 ## License
 
