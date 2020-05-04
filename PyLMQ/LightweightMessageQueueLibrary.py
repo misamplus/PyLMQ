@@ -6,48 +6,49 @@ import requests
 
 class LightweightMessageQueueLibrary:
 
-	def __init__(self, hosts='http://localhost:3000'):
+	def __init__(self, hosts='http://localhost:3000', timeout=300):
 		if type(hosts) is not list:
 			hosts = [hosts]
 		self._hosts = hosts
+		self._timeout = timeout
 
 	def help(self, host_index=0):
-		req = requests.get('%s/help' % self._hosts[host_index])
+		req = requests.get('%s/help' % self._hosts[host_index], timeout=self._timeout)
 		if req.status_code == 200:
 			return req.text
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def list(self, host_index=0):
-		req = requests.get('%s/list' % self._hosts[host_index])
+		req = requests.get('%s/list' % self._hosts[host_index], timeout=self._timeout)
 		if req.status_code == 200:
 			return req.text
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def count(self, queue, host_index=0):
-		req = requests.get('%s/count/%s' % (self._hosts[host_index], queue))
+		req = requests.get('%s/count/%s' % (self._hosts[host_index], queue), timeout=self._timeout)
 		if req.status_code == 200:
 			return int(req.text)
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def skip(self, queue, number, host_index=0):
-		req = requests.get('%s/skip/%s/%s' % (self._hosts[host_index], queue, number))
+		req = requests.get('%s/skip/%s/%s' % (self._hosts[host_index], queue, number), timeout=self._timeout)
 		if req.status_code == 200:
 			return 0
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def set(self, queue, message, host_index=0):
-		req = requests.get('%s/set/%s/%s' % (self._hosts[host_index], queue, message))
+		req = requests.get('%s/set/%s/%s' % (self._hosts[host_index], queue, message), timeout=self._timeout)
 		if req.status_code == 200:
 			return 0
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def get(self, queue, host_index=0):
-		req = requests.get('%s/get/%s' % (self._hosts[host_index], queue))
+		req = requests.get('%s/get/%s' % (self._hosts[host_index], queue), timeout=self._timeout)
 		if req.status_code == 200:
 			return {
 				'uid': req.headers.get('Uid', None),
@@ -71,7 +72,7 @@ class LightweightMessageQueueLibrary:
 		raise last_exception
 
 	def fetch(self, queue, host_index=0):
-		req = requests.get('%s/fetch/%s' % (self._hosts[host_index], queue))
+		req = requests.get('%s/fetch/%s' % (self._hosts[host_index], queue), timeout=self._timeout)
 		if req.status_code == 200:
 			return {
 				'uid': req.headers.get('Uid', None),
@@ -96,14 +97,14 @@ class LightweightMessageQueueLibrary:
 		raise last_exception
 
 	def download(self, message, host_index=0):
-		req = requests.get('%s/download/%s' % (self._hosts[host_index], message))
+		req = requests.get('%s/download/%s' % (self._hosts[host_index], message), timeout=self._timeout)
 		if req.status_code == 200:
 			return req.content
 		else:
 			raise Exception(req.status_code, req.text)
 
 	def delete(self, queue, host_index=0):
-		req = requests.get('%s/delete/%s' % (self._hosts[host_index], queue))
+		req = requests.get('%s/delete/%s' % (self._hosts[host_index], queue), timeout=self._timeout)
 		if req.status_code == 200:
 			return 0
 		else:
